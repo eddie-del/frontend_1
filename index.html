@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+    <link rel="stylesheet" href="src/style.css">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="src/main.js" defer></script>
+  </head>
+  <body class="min-h-screen w-full bg-slate-50 dark:bg-gray-600 dark:text-slate-300">
+    <div class="mx-auto max-w-[100vw]">
+      <header class=" bg-gray-800 text-slate-300 sticky top-0 z-10">
+        <section class="max-w-6xl mx-auto p-4 flex justify-between items-center">
+          <div class="flex justify-between gap-2 items-center">
+            <a href="#homepage"><div class="px-4 py-3 text-2xl rounded-xl font-bold border border-solid border-blue-800 hover:opacity-90 hover:shadow-2xl">SA</div></a>
+            
+            <h1 class="text-3xl font-medium">Sentiment Analysis</h1>
+          </div>
+          <div class="flex items-center">
+            
+            <!-- hamburger for mobile -->
+            <button
+              id="hamburger-button"
+              class="relative flex items-center justify-center w-8 h-8 cursor-pointer sm:hidden"
+            >
+              <div
+                class="bg-white w-8 h-0.5 rounded absolute top-2 mt-2 transition-all duration-500
+                before:content-[''] before:bg-white before:w-8 before:h-0.5 before:rounded before:absolute before:-translate-x-4 before:-translate-y-2 before:transition-all before:duration-500
+                after:content-[''] after:bg-white after:w-8 after:h-0.5 after:rounded after:absolute after:-translate-x-4 after:translate-y-2 after:transition-all after:duration-500"
+              ></div>
+            </button>
+            <!-- navs -->
+            <nav class="hidden sm:flex space-x-8 text-xl items-center" aria-label="Navigation">
+              <a href="#feedback" class="opacity-90">Feedbacks</a>
+              <a href="#contacts" class="hover:opacity-90">Contact Us</a>
+              <div class="relative">
+                <button id="user-button" class="focus:outline-none">
+                  <img src="img/userIcon.png" alt="user Icon" class="w-[35px] rounded-full border border-gray-300 hover:opacity-90 transition duration-300">
+                </button>
+              </div>
+            </nav>
+          </div>
+        </section>
+
+          <section
+          id="mobile-menu"
+          class="absolute top-full justify-center animate-open-menu origin-top left-0 hidden w-full overflow-x-hidden flex-col bg-black text-5xl"
+        >
+          <!-- <button class="text-8xl self-end px-6">
+              &times;
+            </button> -->
+          <nav
+            class="flex min-h-screen flex-col items-center py-4"
+            aria-label="mobile"
+          >
+            <a href="#homepage" class="w-full py-4 text-center hover:opacity-90 mt-0"
+              >Home</a
+            >
+            <a href="#generate" class="w-full py-6 text-center hover:opacity-90"
+              >Upload</a
+            >
+            <a
+              href="#feedback"
+              class="w-full py-6 text-center hover:opacity-90"
+              >FeedBacks</a
+            >
+            <a href="#contacts" class="w-full py-6 text-center hover:opacity-90"
+              >Contact Us</a
+            >
+            <a href="#footer" class="w-full py-6 text-center hover:opacity-90"
+              >Legal</a
+            >
+          </nav>
+        </section>
+      </header>
+
+      <main class="mx-auto max-w-6xl md:flex-row gap-6">
+      <section id="homepage" class="flex flex-col-reverse justify-center sm:flex-row p-6 items-center gap-8 mb-3 scroll-mt-40 min-h-screen">
+        <article class="sm:w-1/2">
+          <h2 class="max-w-md text-4xl font-bold text-center sm:text-5xl sm:text-left text-slate-900 dark:text-white">
+            Discover the <span class="text-indigo-700 dark:text-indigo-300">Sentiments</span>
+            behind your videos...
+          </h2>
+          <p class="max-w-md txt-2xl mt-4 text-center sm:text-left text-slate-700 dark:text-slate-400">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur laborum officia, distinctio dolore nemo quam.
+          </p>
+          <a href="#generate" 
+          class="inline-block px-3 py-2 rounded-full bg-blue-900 text-white font-mono mt-8 mb-8">
+          Get Started &#8595;
+        </a>
+          
+        </article>
+          <img src="img/flag.png" alt="flagship" class="w-1/2">
+      </section>
+
+    <hr class="mx-auto bg-black dark:bg-white w-1/2 mb-15">
+      <!-- generate section -->
+      <section id="generate" class="p-6 my-8 scroll-mt-20 min-h-screen">
+        
+      <div class="flex flex-coflex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 overflow-hidden ">
+      
+      <!-- Left side (scrollable / main content) -->
+      <div class="flex-1 min-w-1/2 h-screen pr-4 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+
+      <!-- Upload Box -->
+      <div class="space-y-6">
+        <p class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-300">Inference</p>
+
+        <div id="videoPreviewContainer" class="hidden w-full max-w-md mx-auto mb-6">
+        <video
+          id="videoPreview"
+          controls
+          class="w-full rounded-lg shadow-lg"
+        ></video>
+      </div>
+      <div class="flex flex-col items-center justify-center">
+          <label for="videoInput"
+            class=" w-full h-40 bg-indigo-200 border-2 border-solid hover:border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center space-y-2 hover:bg-gray-50 cursor-pointer transition dark:bg-slate-800"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0l-4 4m4-4l4 4"
+              />
+            </svg>
+            <p class="text-gray-600 font-medium">Upload a video</p>
+            <p class="text-gray-400 text-sm">
+              Get started with sentiment detection by uploading a video.
+            </p>
+          </label>
+
+          <input 
+              id="videoInput"
+              type="file"
+              accept="video/*"
+              class="hidden"
+              onchange="handleVideoUpload(event)"
+            />
+
+            <div id="videoPreviewContainer" class="hidden mt-6 w-full max-w-md mx-auto">
+              <video
+                id="videoPreview"
+                controls
+                class="w-full rounded-lg shadow-lg"
+              ></video>
+            </div>
+        </div>
+
+        <div id="analysisSections" class="hidden space-y-6 transition-opacity duration-700">
+          <!-- Overall analysis -->
+        <h3 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-300">Overall Analysis</h3>
+        <div class="bg-indigo-300 dark:bg-slate-800 p-6 rounded-lg shadow border-2 border-solid hover:border-dashed border-gray-300 hover:bg-gray-50 transition">
+          <div class="grid grid-cols-2 gap-6 text-center ">
+            <div>
+              <p class="font-medium text-slate-700 dark:text-slate-400 mb-2">
+                Primary Emotion
+              </p>
+              <div class="text-4xl">😮</div>
+              <p class="text-gray-600 dark:text-gray-400">0.479 (48%)</p>
+            </div>
+            
+            <div>
+              <p class="font-medium text-slate-700 dark:text-slate-400 mb-2">
+                Primary Sentiment
+              </p>
+              <div class="text-4xl">😐</div>
+              <p class="text-gray-600 dark:text-gray-400">0.487 (49%)</p>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- Analysis utterance -->
+        <h3 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-300">
+          Analysis utterance
+        </h3>
+        <div class="bg-indigo-400 dark:bg-slate-800 p-6 rounded-lg shadow border-2 border-solid hover:border-dashed border-gray-300 hover:bg-gray-50 transition">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+            <!-- leftside-card -->
+            <div class="sm:w-1/3">
+              <p class="text-sm font-medium text-gray-600 dark:text-slate-400">0.0 - 0.7</p>
+              <p class="text-gray-800 dark:text-slate-400 mt-1">You'll be here to me.</p>
+            </div>
+
+            <!-- rightside-card -->
+            <div class="sm:w2/3 grid grid-cols-2 gap-6 text-gray-700 dark:text-slate-400 mb-2">
+              <div>
+                <p class="font-medium ">Emotions</p>
+                <div class="flex items-center justify-between mb-2">
+                  <span>😐 neutral</span>
+                  <span>56%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 56%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😂 joy</span>
+                  <span>16%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 16%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😱 fear</span>
+                  <span>11%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 11%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <p class="font-medium ">Sentiments</p>
+                <div class="flex items-center justify-between mb-2">
+                  <span>😐 neutral</span>
+                  <span>75%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 75%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😊 positive</span>
+                  <span>19%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 16%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😡 negative</span>
+                  <span>6%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 11%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-indigo-500 dark:bg-slate-800 p-6 rounded-lg shadow border-2 border-solid hover:border-dashed border-gray-300 hover:bg-gray-50 transition">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+            <!-- leftside-card -->
+            <div class="sm:w-1/3">
+              <p class="text-sm font-medium text-gray-600 dark:text-slate-400">3.0 - 4.3</p>
+              <p class="text-gray-800 dark:text-slate-400 mt-1">No, no, you come here to me.</p>
+            </div>
+
+            <!-- rightside-card -->
+            <div class="sm:w2/3 grid grid-cols-2 gap-6 text-gray-700 dark:text-slate-400 mb-2">
+              <div>
+                <p class="font-medium ">Emotions</p>
+                <div class="flex items-center justify-between mb-2">
+                  <span>😱 fear</span>
+                  <span>52%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 52%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>🥹 sadness</span>
+                  <span>16%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 16%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😐 neutral</span>
+                  <span>9%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 9%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <p class="font-medium ">Sentiments</p>
+                <div class="flex items-center justify-between mb-2">
+                  <span>😡 negative</span>
+                  <span>49%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 49%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😐 neutral</span>
+                  <span>37%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 37%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😊 positive</span>
+                  <span>14%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 14%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-indigo-600 dark:bg-slate-800 p-6 rounded-lg shadow border-2 border-solid hover:border-dashed border-gray-300 hover:bg-gray-50 transition">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+            <!-- leftside-card -->
+            <div class="sm:w-1/3">
+              <p class="text-sm font-medium text-gray-600 dark:text-slate-400">6.4 - 6.9</p>
+              <p class="text-gray-800 dark:text-slate-400 mt-1">Hey, Rose.</p>
+            </div>
+
+            <!-- rightside-card -->
+            <div class="sm:w2/3 grid grid-cols-2 gap-6 text-gray-700 dark:text-slate-400 mb-2">
+              <div>
+                <p class="font-medium ">Emotions</p>
+                <div class="flex items-center justify-between mb-2">
+                  <span>😐 neutral</span>
+                  <span>40%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 40%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😂 joy</span>
+                  <span>18%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 18%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😱 fear</span>
+                  <span>11%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 11%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <p class="font-medium ">Sentiments</p>
+                <div class="flex items-center justify-between mb-2">
+                  <span>😐 neutral</span>
+                  <span>63%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 63%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😊 positive</span>
+                  <span>26%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 26%;"></div>
+                </div>
+
+                <div class="flex items-center justify-between mb-2">
+                  <span>😡 negative</span>
+                  <span>10%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mb-2">
+                  <div class="bg-slate-700 h-2 rounded-full" style="width: 10%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Right side (sticky text panel) -->
+        <div class="shrink-0 w-full md:w-[350px] lg:w-[400px] sticky top-6 bg-slate-100 dark:bg-slate-800 p-4 rounded-lg shadow self-start">
+          <h2 class="text-xl font-bold mb-4">API</h2>
+          <div class="bg-slate-200 dark:bg-black pl-6 pr-8 py-4 rounded-lg relative mb-8">
+            <p class="font-medium">Secret key</p>
+            <p class="text-xl text-left text-slate-800 dark:text-slate-300">
+              This key should be used when calling our API, to authorize your request. It cannot be shared publicly, and needs to be kept secret.
+            </p>
+            
+            <div class="flex flex-wrap items-center gap-2 mt-6 w-full">
+              <!-- Key Box -->
+              <p class="font-medium mr-16">Key</p>
+              <input 
+                type="text" 
+                value="sa_live_71a9ce8eb1efea268..." 
+                readonly
+                class="flex-1 min-w-0 px-2 py-2 border rounded-md bg-gray-100 text-gray-700 font-mono text-sm truncate"
+            />
+
+              <!-- Copy Button -->
+              <button 
+                class="shrink-0 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm rounded-md hover:cursor-pointer"
+                onclick="navigator.clipboard.writeText('sa_live_71a9ce8eb1efea268...')"
+              >
+                Copy
+              </button>
+            </div>    
+        </div>
+
+            <!-- quota -->
+              <div class="bg-slate-200 dark:bg-black pl-6 pr-8 py-4 rounded-lg mb-8">
+                <div class="flex justify-between mb-2 text-sm font-medium text-gray-900 dark:text-slate-300">
+                  <span>Monthly quota</span>
+                  <span id="quota-text"></span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                <div id="quota-bar" class="bg-slate-700 h-2 rounded-full"></div>
+              </div>
+            </div>
+
+            <div class="mx-auto bg-slate-200 rounded-lg shadow">
+            <!-- Tabs -->
+            <div class="flex border-b">
+              <button onclick="showTab('ts')" id="tsTab"
+                class="px-4 py-2 text-sm text-gray-500 hover:text-gray-700 font-medium active:text-blue-600 border-b-2 border-blue-600">
+                TypeScript
+              </button>
+              <button onclick="showTab('curl')" id="curlTab"
+                class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                cURL
+              </button>
+            </div>
+
+            <!-- Code Blocks -->
+            <div class="bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm font-mono rounded-b-lg">
+              <pre id="tsCode"><code>
+          const res = await fetch('/api/sentiment-inference', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + YOUR_API_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ key })
+          })
+          </code></pre>
+
+              <pre id="curlCode" class="hidden"><code>
+          curl -X POST https://api.example.com/sentiment-inference \
+            -H "Authorization: Bearer YOUR_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"key": "123"}'
+          </code></pre>
+            </div>
+          </div>
+          
+          </div>
+        </div>
+    </section>
+
+    <hr class="mx-auto bg-black dark:bg-white w-1/2 mb-30">
+
+        <section id="feedback" class="p-6 my-12 scroll-mt-25 min-h-screen">
+          <h2 class="text-4xl font-bold text-center sm:text-5xl mb-6 text-slate-900 dark:text-white">
+            Feedbacks
+          </h2>
+
+          <figure class="my-12">
+            <blockquote
+              class="bg-slate-200 dark:bg-slate-800 px-6 py-6 rounded-xl shadow relative mb-8 max-w-screen"
+            >
+              <p
+                class="text-lg text-slate-800 dark:text-slate-200 leading-relaxed before:content-['\201C'] before:font-serif before:absolute before:-top-2 before:-left-1 before:text-7xl before:text-slate-600 before:opacity-30 before:translate-y-2 after:content-['\201D'] after:font-serif after:absolute after:-bottom-10 after:right-2 after:text-7xl after:text-slate-600 after:opacity-30 after:-translate-y-2"
+              >
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui numquam
+                aliquid assumenda pariatur aperiam a, quo impedit nostrum quibusdam
+                eaque laboriosam magnam laudantium amet, fugiat exercitationem, hic
+                modi ea atque?
+              </p>
+            </blockquote>
+
+            <figcaption class="mr-6 text-right text-sm text-slate-500 dark:text-slate-400">
+              — Waka 0_0
+            </figcaption>
+          </figure>
+
+
+        
+
+        <figure class="my-12">
+            <blockquote
+              class="bg-slate-200 dark:bg-slate-800 px-6 py-6 rounded-xl shadow relative mb-8 max-w-screen "
+            >
+              <p
+                class="text-lg text-slate-800 dark:text-slate-200 leading-relaxed before:content-['\201C'] before:font-serif before:absolute before:-top-2 before:-left-1 before:text-7xl before:text-slate-600 before:opacity-30 before:translate-y-2 after:content-['\201D'] after:font-serif after:absolute after:-bottom-10 after:right-2 after:text-7xl after:text-slate-600 after:opacity-30 after:-translate-y-2"
+              >
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui numquam
+                aliquid assumenda pariatur aperiam a, quo impedit nostrum quibusdam
+                eaque laboriosam magnam laudantium amet, fugiat exercitationem, hic
+                modi ea atque?
+              </p>
+            </blockquote>
+
+            <figcaption class="mr-6 text-right text-sm text-slate-500 dark:text-slate-400">
+              — Owl
+            </figcaption>
+          </figure>
+        <figure class="my-12">
+            <blockquote
+              class="bg-slate-200 dark:bg-slate-800 px-6 py-6 rounded-xl shadow relative mb-8"
+            >
+              <p
+                class="text-lg text-slate-800 dark:text-slate-200 leading-relaxed before:content-['\201C'] before:font-serif before:absolute before:-top-2 before:-left-1 before:text-7xl before:text-slate-600 before:opacity-30 before:translate-y-2 after:content-['\201D'] after:font-serif after:absolute after:-bottom-10 after:right-2 after:text-7xl after:text-slate-600 after:opacity-30 after:-translate-y-2"
+              >
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui numquam
+                aliquid assumenda pariatur aperiam a, quo impedit nostrum quibusdam
+                eaque laboriosam magnam laudantium amet, fugiat exercitationem, hic
+                modi ea atque?
+              </p>
+            </blockquote>
+
+            <figcaption class="mr-6 text-right text-sm text-slate-500 dark:text-slate-400">
+              — Magna
+            </figcaption>
+          </figure>
+
+        </section>
+        <hr class="mx-auto bg-black dark:bg-white w-1/2 mb-60">
+
+        <section id="contacts" class="p-6 my-12 scroll-mt-30">
+          <h2 class="text-4xl font-bold text-center sm:text-5xl mb-6 text-slate-900 dark:text-white">
+            Contact Us at...
+          </h2>
+
+          <form action="" class="max-w-6xl mx-auto sm:text-3xl flex flex-col items-start gap-4">
+            <label for="subject">
+              Subject:
+            </label>
+            <input type="text" name="subject" id="subject" required minlength="3" maxlength="60" placeholder="Your subject" class="w-full text-black text-2xl sm:text-3xl rounded-lg border border-slate-900 dark:border-none dark:bg-slate-200 p-3">
+            <label for="message">Message:</label> 
+            <textarea name="message" id="message" cols="30" rows="10" placeholder="Your message" required class="w-full text-black text-2xl sm:text-3xl p-3 rounded-xl border border-slate-900 dark:border-none dark:bg-slate-200"></textarea>
+            <button class="w-auto self-start bg-blue-800 hover:bg-blue-600 active:bg-blue-500 
+            text-white px-6 py-3 rounded-full font-sans transition duration-200 
+            border border-slate-900 dark:border-none">Submit</button>
+          </form>
+      </main>
+
+      <footer id="footer" class="bg-gray-800 text-slate-300 z-10">
+        <section class="max-w-4xl mx-auto p-4 flex flex-col sm:flex-row sm:justify-between">
+          <address>
+            <h2>Sentiment Analysis, Inc.</h2>
+            555 Don Mariano Alvarez <br>
+            Sub-saharan, Mindanao 12345-5555<br>
+            Email: <a href="mailto:inquiries@Sentad.com">Inquires@SentimentAnalysis.com</a><br>
+            Phone: <a href="tel:+15555558080">(555) 555-8080</a>
+          </address>
+
+          <nav class="hidden md:flex flex-col gap-2" aria-label="footer">
+              <a href="#feedback" class="opacity-90">Feedbacks</a>
+              <a href="#contacts" class="hover:opacity-90">Contact Us</a>
+              <a href="#generate" class="hover:opacity-90">Upload video</a>
+            </nav>
+            <div class="flex flex-col sm:gap-2">
+            <p class="text-right">Copyright &copy; <span id="year">2025</span></p>
+            <p class="text-right">All Rights Reserved</p>
+          </div>
+        </section>
+      </footer>
+    </div>
+    
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
